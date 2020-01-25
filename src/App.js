@@ -19,6 +19,8 @@ class App extends Component {
       docontents: '',
       userList: [],
       userNames: '',
+      rankList:[],
+      rankNum: '',
       selectedOptionKey: ""
     }
   }
@@ -36,6 +38,25 @@ class App extends Component {
     });
     newuserList.push(userNamesContent)
     this.setState({ userList: newuserList })
+  }
+
+  onclickRankList = () =>{
+    const {rankList, rankNum} = this.state;
+    if (rankNum.length === 0) return alert('Please, input rank scores from 1 to 100')
+    const votingContents = {
+      rankid: rankNum,
+      completedDecision: true,
+      date: new Date()
+    }
+    const newrankList = rankList.map((rankList)=>{
+      return rankList
+    });
+    newrankList.push(votingContents)
+    newrankList.sort(function(a, b){
+      return a.rankid - b.rankid;
+  });
+    this.setState({rankList:newrankList})
+
   }
 
   onclickAddList = () => {
@@ -58,6 +79,10 @@ class App extends Component {
 
   onchangeUserNames = (e) => {
     this.setState({ userNames: e.target.value })
+  }
+
+  onchangeVotingContents = (e) => {
+    this.setState({ rankNum: e.target.value })
   }
 
   onchangeDoContents = (e) => {
@@ -126,15 +151,34 @@ class App extends Component {
                   Submit
                 </button>
               </div>
-            </div>
-
+            </div> 
 
             <div className='input-group'>
 
               <input
                 type='text'
                 className='form-control'
-                placeholder='Input do-it list'
+                placeholder='Input Voting Scores (1-100)'
+                value={this.state.votingContents}
+                onChange={this.onchangeVotingContents}
+                onKeyDown={e => e.keyCode === 13 ? this.onclickRankList() : null}
+              />
+              <div className='input-group-append'>
+                <button
+                  className='btn btn-default'
+                  onClick={this.onclickRankList}
+                >
+                  Submit
+              </button>
+              </div>
+            </div>
+
+            <div className='input-group'>
+
+              <input
+                type='text'
+                className='form-control'
+                placeholder='Input your favorite movie name'
                 value={this.state.docontents}
                 onChange={this.onchangeDoContents}
                 onKeyDown={e => e.keyCode === 13 ? this.onclickAddList() : null}
@@ -157,27 +201,28 @@ class App extends Component {
 
             {
 
-              this.state.doitList.filter(item => item.completedDecision).map(item =>
+              this.state.rankList.filter(item => item.completedDecision).map(item =>
 
                 /*   this.state.userList.map(item2 => */
                 <React.Fragment>
-                  <div className='container'>
+                  <div className='container' key={item.rankid}>
                     <div className='row' style={{ float: 'left' }}>
                       <img
-                        src={`https://loremflickr.com/120/120?random=${item.id}`}
+                        src={`https://loremflickr.com/120/120?random=${item.rankid}`}
                         alt="users" />
                     </div>
 
-                    <div className='row' key={item.id} style={{ marginLeft: 120, marginBottom:40 }} >
-                      <div className='col-sm'>Movie Ranking : {item.id + 1}{"\n"}</div>
+                    <div className='row' key={item.rankid}  style={{ marginLeft: 120, marginBottom: 40 }} >
+                      <div className='col-sm'>Ranking Scores: {item.rankid}{"\n"}</div>
                       <div className='col-sm' style={{ marginRight: 5, whiteSpace: "pre-wrap" }}> {item.date.toLocaleDateString('en-US')} {item.date.toLocaleTimeString('en-US')} {"\n"} {item.name} {"\n"} </div>
 
 
                       <Users userList={this.state.userList} userNames={this.state.userNames} />
-                      <td>{CancelButton(item)}</td>
+                      <div>{CancelButton(item)}</div>
                     </div>
                   </div>
                 </React.Fragment>
+              
               )
 
             }
@@ -187,7 +232,7 @@ class App extends Component {
         </div>
 
         <div className='col-6'>
-          <h3>Movies</h3>
+          <h3>Users Change</h3>
           <select onChange={this.onchangeUserNames}>
             <option>Choose</option>
             {

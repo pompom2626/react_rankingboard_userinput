@@ -28,7 +28,7 @@ class App extends Component {
     if (userNames.length === 0) return alert('Please, input user name')
     const userNamesContent = {
       id: userId++,
-      name: userNames
+      uname: userNames
     }
 
     const newuserList = userList.map((userList) => {
@@ -104,12 +104,12 @@ class App extends Component {
       <div className='container' style={{ maxWidth: 600, padding: '20px 0' }}>
         <div className='row'>
           <div className='col text-center'>
-          <div>
-                <Header />  
-                     
-             </div>
+            <div>
+              <Header />
+
+            </div>
             <div className='input-group'>
-              
+
               <input
                 type='text'
                 className='form-control'
@@ -161,11 +161,21 @@ class App extends Component {
 
                 /*   this.state.userList.map(item2 => */
                 <React.Fragment>
-                  <Users userList={this.state.userList} userNames={this.state.userNames} />
+                  <div className='container'>
+                    <div className='row' style={{ float: 'left' }}>
+                      <img
+                        src={`https://loremflickr.com/120/120?random=${item.id}`}
+                        alt="users" />
+                    </div>
 
-                  <div key={item.id} style={{ margin: 10 }} >
-                    <p style={{ marginRight: 5, whiteSpace: "pre-wrap" }}>-{item.date.toLocaleDateString('en-US')} {item.date.toLocaleTimeString('en-US')} {"\n"} {item.name} </p>
-                    {CancelButton(item)}
+                    <div className='row' key={item.id} style={{ marginLeft: 120, marginBottom:40 }} >
+                      <div className='col-sm'>Movie Ranking : {item.id + 1}{"\n"}</div>
+                      <div className='col-sm' style={{ marginRight: 5, whiteSpace: "pre-wrap" }}> {item.date.toLocaleDateString('en-US')} {item.date.toLocaleTimeString('en-US')} {"\n"} {item.name} {"\n"} </div>
+
+
+                      <Users userList={this.state.userList} userNames={this.state.userNames} />
+                      <td>{CancelButton(item)}</td>
+                    </div>
                   </div>
                 </React.Fragment>
               )
@@ -177,13 +187,13 @@ class App extends Component {
         </div>
 
         <div className='col-6'>
-          <h3>Users</h3>
+          <h3>Movies</h3>
           <select onChange={this.onchangeUserNames}>
             <option>Choose</option>
             {
               this.state.userList.map(item =>
                 <option key={item.id} style={{ margin: 10, marginRight: 5 }}>
-                  -{item.name} {"\n"} {/* {item.image} */}</option>
+                  -{item.uname} {"\n"} {/* {item.image} */}</option>
 
               )
             }

@@ -58,7 +58,7 @@ class App extends Component {
 
     //stack overflow : sort json object in javascript  https://stackoverflow.com/questions/17684921/sort-json-object-in-javascript
     newrankList.sort(function (a, b) {
-      return b.rankid - a.rankid;
+      return a.rankid - b.rankid;
     });
     this.setState({ rankList: newrankList })
 
@@ -148,7 +148,7 @@ class App extends Component {
               <input
                 type='text'
                 className='form-control'
-                placeholder='Input user number (only numbers required)'
+                placeholder='Input user name'
                 value={this.state.userNames}
                 onChange={this.onchangeUserNames}
                 onKeyDown={e => e.keyCode === 13 ? this.onclickUserList() : null}
@@ -215,7 +215,7 @@ class App extends Component {
 
                 /*   this.state.userList.map(item2 => */
                 <React.Fragment>
-                  <div className={`container${item.rankid}`} key={item.rankid}>
+                  <div className='container' key={item.rankid}>
                     <div className='row' style={{ float: 'left' }}>
                       <img
                         src={`https://loremflickr.com/120/120?random=${item.rankid}`}
@@ -226,7 +226,7 @@ class App extends Component {
                       <div className='col-sm'>Ranking Scores: {item.rankid}{"\n"}</div>
                       <div className='col-sm' style={{ marginRight: 5, whiteSpace: "pre-wrap" }}>
                         {item.date.toLocaleDateString('en-US')} {item.date.toLocaleTimeString('en-US')} {"\n"}
-                        <MovieNames doitList={this.state.doitList} rankList={this.state.rankList}  /> {"\n"} </div>
+                        <MovieNames  doitList={this.state.doitList} rankList={this.state.rankList} /> {"\n"} </div>
 
                       <Users userList={this.state.userList} userNames={this.state.userNames} />
                       <div>{CancelButton(item)}</div>

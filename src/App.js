@@ -21,14 +21,15 @@ class App extends Component {
       doitList: [],
       docontents: '',
       userList: [],
-      userNames: '',
+      userNames: 'Js',
       rankList: [],
       rankContents: '',
       selectedOptionKey: ""
     }
   }
 
-  onclickUserList = () => {
+  //removable for final project
+  /* onclickUserList = () => {
     const { userList, userNames } = this.state
     if (userNames.length === 0) return alert('Please, input user name')
     const userNamesContent = {
@@ -41,10 +42,10 @@ class App extends Component {
     });
     newuserList.push(userNamesContent)
     this.setState({ userList: newuserList })
-  }
+  } */
 
   onclickRankList = () => {
-    const { rankList, rankContents, } = this.state;
+    const { rankList, rankContents, userNames } = this.state;
     if (rankContents.length === 0) return alert('Please, input rank scores from 1 to 100')
     const votingContents = {
       id: rankindexId++,
@@ -52,6 +53,8 @@ class App extends Component {
       rankid: this.state.likeId,  //change message
       completedDecision: true,
       date: new Date(),
+      uid: userId++,
+      uname: userNames
       // message:
     }
     const newrankList = rankList.map((rankList) => {
@@ -104,6 +107,11 @@ class App extends Component {
     this.setState({ doitList: newdoitList })
   }
 
+  /* handleSubmit = (e) => {
+    e.preventDefault();
+    this.setState({ userNames: e.target.value })
+  } */
+
   onclickRemoveButton = (rankid) => {
     const { rankList } = this.state
     const newrankList = rankList.filter(item => item.rankid !== rankid)
@@ -132,7 +140,7 @@ class App extends Component {
               <Header />
 
             </div>
-            <div className='input-group'>
+            {/*  <div className='input-group'>
 
               <input
                 type='text'
@@ -150,14 +158,14 @@ class App extends Component {
                   Submit
                 </button>
               </div>
-            </div>
+            </div> */}
 
             <div className='input-group'>
 
               <input
                 type='text'
                 className='form-control'
-                placeholder='Input your messages and click rank score + or -'
+                placeholder='Input your messages here and click rank score + or -'
                 value={this.state.votingContents}
                 onChange={this.onchangeVotingContents}
                 onKeyDown={e => e.keyCode === 13 ? this.onclickRankList() : null}
@@ -183,7 +191,7 @@ class App extends Component {
                 onKeyDown={e => e.keyCode === 13 ? this.onclickAddList() : null}
               /> */}
               <div className='border border-primary input-group-append'>
-                <div>
+                <div className='btn btn-default'>
                   message ranking: {this.state.likeId}
                 </div>
                 <button
@@ -225,10 +233,20 @@ class App extends Component {
                       <div className='col-sm' style={{ marginRight: 5, whiteSpace: "pre-wrap" }}>
                         {item.date.toLocaleDateString('en-US')} {item.date.toLocaleTimeString('en-US')} {"\n"}
                         {/* <MovieNames doitList={this.state.doitList} rankList={this.state.rankList} /> {"\n"} */}
-                        <p>{item.rankMessage}</p>
+                        
                       </div>
-
-                      <Users userList={this.state.userList} userNames={this.state.userNames} />
+                      <p className='w-100'>{item.rankMessage}</p>
+                     <Users rankList={this.state.rankList} userNames={this.state.userNames} />
+                      
+                      {/* <div style={{ float: 'left' }}>
+                        <img
+                          src={`https://loremflickr.com/30/30?random=${this.rankList.uname}`}
+                          alt="users" />
+                      </div>
+                      <div>
+                        user name : {this.rankList.uname}
+                      </div>
+ */}
                       <div>{CancelButton(item)}</div>
                     </div>
                   </div>
@@ -242,19 +260,36 @@ class App extends Component {
 
         </div>
 
-        <div className='col-6'>
+        {/* <form onSubmit={this.handleSubmit}> */}
+        <label>
+          Pick your user:
+          <select value={this.state.userNames} onChange={this.onchangeUserNames}>
+            <option value="100">Js</option>
+            <option value="200">Csharp</option>
+            <option value="300">Python</option>
+            <option value="400">CPlusPlus</option>
+          </select>
+        </label>
+        {/*  <input type="submit" value="Submit" />
+      </form> */}
+
+
+
+        {/* <div className='col-6'>
           <h3>Users Change</h3>
           <select onChange={this.onchangeUserNames}>
             <option>Choose</option>
             {
               this.state.userList.map(item =>
                 <option key={item.id} style={{ margin: 10, marginRight: 5 }}>
-                  -{item.uname} {"\n"} {/* {item.image} */}</option>
+                  -{item.uname} {"\n"} </option>
 
               )
             }
           </select>
-        </div>
+        </div> */}
+
+
 
       </div>
 

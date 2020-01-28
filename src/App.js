@@ -71,6 +71,11 @@ class App extends Component {
     this.setState({ likeId: likeCount })
   }
 
+  onclickMinusList = () => {
+    let likeCount = this.state.likeId - 1;
+    this.setState({ likeId: likeCount })
+  }
+
   onchangeUserNames = (e) => {
     this.setState({ userNames: e.target.value })
   }
@@ -152,7 +157,7 @@ class App extends Component {
               <input
                 type='text'
                 className='form-control'
-                placeholder='Input Voting Scores (from number 1 to 100 required)'
+                placeholder='Input your messages and click rank score + or -'
                 value={this.state.votingContents}
                 onChange={this.onchangeVotingContents}
                 onKeyDown={e => e.keyCode === 13 ? this.onclickRankList() : null}
@@ -177,12 +182,21 @@ class App extends Component {
                 onChange={this.onchangeDoContents}
                 onKeyDown={e => e.keyCode === 13 ? this.onclickAddList() : null}
               /> */}
-              <div className='input-group-append'>
+              <div className='border border-primary input-group-append'>
+                <div>
+                  message ranking: {this.state.likeId}
+                </div>
                 <button
                   className='btn btn-default'
                   onClick={this.onclickAddList}
                 >
-                  Submit
+                  +rank
+                </button>
+                <button
+                  className='btn btn-default'
+                  onClick={this.onclickMinusList}
+                >
+                  -rank
                 </button>
               </div>
             </div>

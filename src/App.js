@@ -160,15 +160,16 @@ class App extends Component {
               </div>
             </div> */}
 
-            <div className='input-group'>
-
-              <input
+            <div className='form-group'>
+           
+              <textarea
                 type='text'
                 className='form-control'
+                rows="3"
                 placeholder='Input your messages here and click rank score + or -'
                 value={this.state.votingContents}
                 onChange={this.onchangeVotingContents}
-                onKeyDown={e => e.keyCode === 13 ? this.onclickRankList() : null}
+                /* onKeyDown={e => e.keyCode === 13 ? this.onclickRankList() : null} */
               />
               <div className='input-group-append'>
                 <button

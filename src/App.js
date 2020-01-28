@@ -173,7 +173,7 @@ class App extends Component {
               />
               <div className='input-group-append'>
                 <button
-                  className='btn btn-default'
+                  className='btn btn-primary'
                   onClick={this.onclickRankList}
                 >
                   Submit
@@ -196,13 +196,13 @@ class App extends Component {
                   message ranking: {this.state.likeId}
                 </div>
                 <button
-                  className='btn btn-default'
+                  className='btn btn-danger'
                   onClick={this.onclickAddList}
                 >
                   +rank
                 </button>
                 <button
-                  className='btn btn-default'
+                  className='btn btn-warning'
                   onClick={this.onclickMinusList}
                 >
                   -rank

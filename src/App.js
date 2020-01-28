@@ -5,7 +5,7 @@ import MovieNames from './MovieNames';
 import { Header } from './components';
 
 //increas do list items
-let dolistId = 0;
+
 let userId = 0;
 let rankindexId = 0;
 
@@ -17,12 +17,13 @@ class App extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      likeId: 0,
       doitList: [],
       docontents: '',
       userList: [],
       userNames: '',
       rankList: [],
-      rankNum: '',
+      rankContents: '',
       selectedOptionKey: ""
     }
   }
@@ -43,13 +44,15 @@ class App extends Component {
   }
 
   onclickRankList = () => {
-    const { rankList, rankNum } = this.state;
-    if (rankNum.length === 0) return alert('Please, input rank scores from 1 to 100')
+    const { rankList, rankContents, } = this.state;
+    if (rankContents.length === 0) return alert('Please, input rank scores from 1 to 100')
     const votingContents = {
       id: rankindexId++,
-      rankid: rankNum,
+      rankMessage: rankContents,
+      rankid: this.state.likeId,  //change message
       completedDecision: true,
-      date: new Date()
+      date: new Date(),
+      // message:
     }
     const newrankList = rankList.map((rankList) => {
       return rankList
@@ -61,30 +64,11 @@ class App extends Component {
       return b.rankid - a.rankid;
     });
     this.setState({ rankList: newrankList })
-
   }
 
   onclickAddList = () => {
-    const { docontents, doitList } = this.state
-
-    if (docontents.length === 0) return alert('Please, Input to do things')
-    const doInputContent = {
-      id: dolistId++,
-      name: docontents,
-      completedDecision: true,
-      date: new Date(),
-
-    }
-    const newdoitList = doitList.map((doitList) => {
-      return doitList
-    });
-    newdoitList.push(doInputContent)
-    //to filter rankId == userId
-   /* filter method not working why?
-      newdoitList.filter((item3) => { 
-      return item3.id == this.rankList.id }) */
-
-    this.setState({ doitList: newdoitList })
+    let likeCount = this.state.likeId + 1;
+    this.setState({ likeId: likeCount })
   }
 
   onchangeUserNames = (e) => {
@@ -92,7 +76,7 @@ class App extends Component {
   }
 
   onchangeVotingContents = (e) => {
-    this.setState({ rankNum: e.target.value })
+    this.setState({ rankContents: e.target.value })
   }
 
   onchangeDoContents = (e) => {
@@ -148,7 +132,7 @@ class App extends Component {
               <input
                 type='text'
                 className='form-control'
-                placeholder='Input user number (only numbers required)'
+                placeholder='Input user name'
                 value={this.state.userNames}
                 onChange={this.onchangeUserNames}
                 onKeyDown={e => e.keyCode === 13 ? this.onclickUserList() : null}
@@ -185,14 +169,14 @@ class App extends Component {
 
             <div className='input-group'>
 
-              <input
+              {/* <input
                 type='text'
                 className='form-control'
                 placeholder='Input your favorite movie name'
                 value={this.state.docontents}
                 onChange={this.onchangeDoContents}
                 onKeyDown={e => e.keyCode === 13 ? this.onclickAddList() : null}
-              />
+              /> */}
               <div className='input-group-append'>
                 <button
                   className='btn btn-default'
@@ -222,11 +206,13 @@ class App extends Component {
                         alt="users" />
                     </div>
 
-                    <div className='row' key={item.rankid} style={{ marginLeft: 120, marginBottom: 40 }} >
+                    <div className='row border border-primary' key={item.rankid} style={{ marginLeft: 120, marginBottom: 40 }} >
                       <div className='col-sm'>Ranking Scores: {item.rankid}{"\n"}</div>
                       <div className='col-sm' style={{ marginRight: 5, whiteSpace: "pre-wrap" }}>
                         {item.date.toLocaleDateString('en-US')} {item.date.toLocaleTimeString('en-US')} {"\n"}
-                        <MovieNames doitList={this.state.doitList} rankList={this.state.rankList}  /> {"\n"} </div>
+                        {/* <MovieNames doitList={this.state.doitList} rankList={this.state.rankList} /> {"\n"} */}
+                        <p>{item.rankMessage}</p>
+                      </div>
 
                       <Users userList={this.state.userList} userNames={this.state.userNames} />
                       <div>{CancelButton(item)}</div>
